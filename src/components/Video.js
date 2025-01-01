@@ -1,5 +1,5 @@
 import './Video.css'
-function Video({ title, views, time, channel = 'Riyaz Musics', verified, id }) {
+function Video({ title, views, time, channel = 'Riyaz Musics', verified, id, children }) {
      
     return (
         <>
@@ -12,6 +12,10 @@ function Video({ title, views, time, channel = 'Riyaz Musics', verified, id }) {
                     <div className='time'>{time}</div>
                     <div className='channel'>{channel} {verified && '✔️'}</div>
                 </div>
+                
+            </div>
+            <div>
+                    {children}
                 </div>
         </>
     )

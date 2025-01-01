@@ -1,6 +1,15 @@
 import './Resume.css'
 
 function Resume() {
+  const onPrint =() => {
+    window.print()
+  }
+
+  const onClose = () => {
+    window.close();
+  };
+
+
     return (
         <>
             <div id="header"></div>
@@ -43,11 +52,16 @@ function Resume() {
     <li>Recycling Club</li>
     <li>Gardening Club</li>
     <li>Book Club</li>
-  </ul>
+          </ul>
+          <div>
+            <button onClick={onPrint}>print</button>
+            <button onClick={onClose}>close</button>
+        </div>
             </div>
             <div className="right"></div>
-<div id="footer">
-  <h2 id="name">Emily</h2></div>
+              <div id="footer">
+          <h2 id="name">Emily</h2></div>
+        
         </>
     )
 }
