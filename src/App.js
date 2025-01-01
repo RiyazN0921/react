@@ -8,6 +8,7 @@ import Resume from "./components/Resume";
 import States from "./components/State";
 import Video from "./components/Video";
 import videoDB from './data/data'
+import Effects from "./components/Effect";
 
 function App() {
 
@@ -35,13 +36,13 @@ function App() {
           </Video>)}
 
       </div >
-      {<Resume /> }
-
+    <Resume /> 
       <Events></Events>
       <Forms></Forms>
       <Inuputs></Inuputs>
       <Clicks></Clicks>
       <States></States>
+      <Effects></Effects>
     </>
   )
 }
