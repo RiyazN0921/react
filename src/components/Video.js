@@ -7,10 +7,18 @@ function Video({
   verified,
   id,
   children,
+  editVideo,
+  deleteVideo,
 }) {
   return (
     <>
       <div className="container">
+        <button className="close" onClick={() => deleteVideo(id)}>
+          X
+        </button>
+        <button className="edit" onClick={() => editVideo(id)}>
+          Edit
+        </button>
         <img
           src={`https://picsum.photos/id/${id}/200/300`}
           alt="Katherine Johnson"

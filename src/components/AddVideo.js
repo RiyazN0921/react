@@ -8,22 +8,34 @@ const initialState = {
   views: '',
 }
 
-function AddVideo({ addVideo }) {
-  const [video, setVideo] = useState(initialState)
+function AddVideo({ addVideo, updateVideo, editable, setEditable }) {
+  const [video, setVideo] = useState(editable || initialState)
+
+  if (editable && video.id !== editable.id) {
+    setVideo(editable)
+  }
 
   function handleChange(e) {
-    console.log(e.target.name, e.target.value)
     setVideo({ ...video, [e.target.name]: e.target.value })
-
-    console.log(video)
   }
 
   function handleSubmit(e) {
     e.preventDefault()
-    console.log(video)
-    addVideo(video)
+    if (editable) {
+      updateVideo(video)
+      setEditable(null)
+    } else {
+      addVideo(video)
+    }
+
     setVideo(initialState)
   }
+
+  // useEffect(() => {
+  //   if (editable) {
+  //     setVideo(editable)
+  //   }
+  // }, [editable])
 
   return (
     <>
@@ -40,7 +52,9 @@ function AddVideo({ addVideo }) {
           placeholder="enter views"
           value={video.views}
         ></input>
-        <button onClick={handleSubmit}>Add Video</button>
+        <button onClick={handleSubmit}>
+          {editable ? 'edit' : 'add'} Video
+        </button>
       </form>
     </>
   )

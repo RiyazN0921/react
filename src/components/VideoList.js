@@ -1,9 +1,13 @@
 import PlayButton from './PlayButton'
 import Video from './Video'
 
-function VideoList({ videos }) {
+function VideoList({ videos, deleteVideo, editVideo }) {
   return (
-    <div onClick={() => console.log('app')} className="wrapper">
+    <div
+      style={{ display: 'flex' }}
+      onClick={() => console.log('app')}
+      className="wrapper"
+    >
       {videos.map((video) => (
         <Video
           key={video.id}
@@ -12,6 +16,8 @@ function VideoList({ videos }) {
           views={video.views}
           time={video.time}
           id={video.id}
+          deleteVideo={deleteVideo}
+          editVideo={editVideo}
         >
           <PlayButton
             message={{
