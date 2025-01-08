@@ -27,3 +27,11 @@
 .close {
   right: 5rem;
 }
+
+.container.DarkMode {
+  background-color: black;
+}
+
+.container.lightMode {
+  background-color: #ccc;
+}

@@ -12,6 +12,7 @@ import AddVideo from './components/AddVideo'
 import VideoList from './components/VideoList'
 // import resumeData from './data/Resume'
 import ResumeEditor from './components/ResumeEditor'
+import ThemeContext from './context/Theme'
 // import FormEvent from './components/FormEvent'
 // import SearchableList from './components/SearchPlayers'
 // import Todo from './components/Todo'
@@ -80,13 +81,22 @@ function App() {
 
   const [editable, setEditable] = useState(null)
 
+  const [mode, setMode] = useState('DarkMode')
+
   function editVideo(id) {
     setEditable(videos.find((videos) => videos.id === id))
   }
 
   return (
-    <>
+    <ThemeContext.Provider value={mode}>
       <div>
+        <button
+          onClick={() =>
+            setMode(mode === 'DarkMode' ? 'lightMode' : 'DarkMode')
+          }
+        >
+          mode
+        </button>
         <AddVideo
           dispatch={dispatch}
           editable={editable}
@@ -110,7 +120,7 @@ function App() {
       {/* <FormEvent></FormEvent>
       <SearchableList></SearchableList> */}
       {/* <Todo></Todo> */}
-    </>
+    </ThemeContext.Provider>
   )
 }
 
