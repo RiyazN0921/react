@@ -1,7 +1,7 @@
 // import Events from './components/Events'
 // import Forms from './components/Form'
 // import Inuputs from './components/Input'
-import { useState } from 'react'
+import { useReducer, useState } from 'react'
 // import Clicks from './components/Click'
 import Resume from './components/Resume'
 // import States from './components/State'
@@ -16,83 +16,90 @@ import ResumeEditor from './components/ResumeEditor'
 // import SearchableList from './components/SearchPlayers'
 // import Todo from './components/Todo'
 
+const initialState = {
+  name: 'Emily',
+  skills: [],
+  education: [],
+  experience: [],
+  interests: [],
+  extracurriculars: [],
+}
+
 function App() {
-  const [resumeData, setResumeData] = useState({
-    name: 'Emily',
-    skills: [],
-    education: [],
-    experience: [],
-    interests: [],
-    extracurriculars: [],
-  })
+  function resumeReducer(resumeData, action) {
+    switch (action.type) {
+      case 'ADDRESUME':
+        return {
+          ...resumeData,
+          [action.section]: [...resumeData[action.section], action.payload],
+        }
 
-  const addData = (section, item) => {
-    setResumeData((prevState) => ({
-      ...prevState,
-      [section]: [...prevState[section], item],
-    }))
+      case 'DELETERESUME':
+        return {
+          ...resumeData,
+          [action.section]: resumeData[action.section].filter(
+            (_, i) => i !== action.payload,
+          ),
+        }
+
+      case 'UPDATERESUME':
+        return {
+          ...resumeData,
+          [action.section]: resumeData[action.section].map((item, i) =>
+            i === action.index ? action.payload : item,
+          ),
+        }
+
+      default:
+        return resumeData
+    }
   }
 
-  const deleteData = (section, index) => {
-    setResumeData((prevState) => ({
-      ...prevState,
-      [section]: prevState[section].filter((_, i) => i !== index),
-    }))
+  const [resumeData, resumedispatch] = useReducer(resumeReducer, initialState)
+
+  function videoReducer(videos, action) {
+    switch (action.type) {
+      case 'ADD':
+        return [...videos, { ...action.payload, id: videos.length + 1 }]
+
+      case 'DELETE':
+        return videos.filter((videos) => videos.id !== action.payload)
+
+      case 'UPDATE':
+        const index = videos.findIndex((v) => v.id === action.payload.id)
+        const newVideos = [...videos]
+        newVideos.splice(index, 1, action.payload)
+        return newVideos
+
+      default:
+        return action.payload
+    }
   }
 
-  const updateData = (section, index, updatedItem) => {
-    setResumeData((prevState) => ({
-      ...prevState,
-      [section]: prevState[section].map((item, i) =>
-        i === index ? updatedItem : item,
-      ),
-    }))
-  }
-
-  const [videos, setVideos] = useState(videoDB)
+  const [videos, dispatch] = useReducer(videoReducer, videoDB)
 
   const [editable, setEditable] = useState(null)
 
-  const addVideo = (video) => {
-    setVideos([...videos, { ...video, id: videos.length + 1 }])
-  }
-
-  function deleteVideo(id) {
-    setVideos(videos.filter((videos) => videos.id !== id))
-  }
-
   function editVideo(id) {
     setEditable(videos.find((videos) => videos.id === id))
-  }
-
-  function updateVideo(video) {
-    const index = videos.findIndex((v) => v.id === video.id)
-    const newVideos = [...videos]
-    newVideos.splice(index, 1, video)
-    setVideos(newVideos)
   }
 
   return (
     <>
       <div>
         <AddVideo
-          addVideo={addVideo}
-          updateVideo={updateVideo}
+          dispatch={dispatch}
           editable={editable}
           setEditable={setEditable}
         />
         <VideoList
-          deleteVideo={deleteVideo}
+          dispatch={dispatch}
           editVideo={editVideo}
           videos={videos}
         ></VideoList>
       </div>
-      <Resume
-        data={resumeData}
-        deleteData={deleteData}
-        updateData={updateData}
-      />
-      <ResumeEditor addData={addData} />
+      <Resume data={resumeData} resumedispatch={resumedispatch} />
+      <ResumeEditor resumedispatch={resumedispatch} />
       {/* <Events></Events>
       <Forms></Forms>
       <Inuputs></Inuputs>

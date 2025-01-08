@@ -1,11 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Resume.css'
 
-function Resume({ data, deleteData, updateData }) {
+function Resume({ data, resumedispatch }) {
   const handleUpdate = (section, index) => {
     const updatedItem = prompt(`Update ${section} item:`, data[section][index])
     if (updatedItem) {
-      updateData(section, index, updatedItem)
+      resumedispatch({
+        type: 'UPDATERESUME',
+        section,
+        index,
+        payload: updatedItem,
+      })
     }
   }
 
@@ -32,7 +37,15 @@ function Resume({ data, deleteData, updateData }) {
                     <button onClick={() => handleUpdate(section, index)}>
                       Edit
                     </button>
-                    <button onClick={() => deleteData(section, index)}>
+                    <button
+                      onClick={() =>
+                        resumedispatch({
+                          type: 'DELETERESUME',
+                          section,
+                          payload: index,
+                        })
+                      }
+                    >
                       Delete
                     </button>
                   </li>

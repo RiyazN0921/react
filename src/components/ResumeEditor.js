@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function ResumeEditor({ addData }) {
+function ResumeEditor({ resumedispatch }) {
   const [skill, setSkill] = useState('')
   const [education, setEducation] = useState({ name: '', link: '' })
   const [experience, setExperience] = useState('')
@@ -9,35 +9,51 @@ function ResumeEditor({ addData }) {
 
   const handleAddSkill = () => {
     if (skill.trim()) {
-      addData('skills', skill)
+      resumedispatch({ type: 'ADDRESUME', section: 'skills', payload: skill })
       setSkill('')
     }
   }
 
   const handleAddEducation = () => {
     if (education.name.trim()) {
-      addData('education', education)
+      resumedispatch({
+        type: 'ADDRESUME',
+        section: 'education',
+        payload: education,
+      })
       setEducation({ name: '', link: '' })
     }
   }
 
   const handleAddExperience = () => {
     if (experience.trim()) {
-      addData('experience', experience)
+      resumedispatch({
+        type: 'ADDRESUME',
+        section: 'experience',
+        payload: experience,
+      })
       setExperience('')
     }
   }
 
   const handleAddInterest = () => {
     if (interest.trim()) {
-      addData('interests', interest)
+      resumedispatch({
+        type: 'ADDRESUME',
+        section: 'interests',
+        payload: interest,
+      })
       setInterest('')
     }
   }
 
   const handleAddExtracurricular = () => {
     if (extracurricular.trim()) {
-      addData('extracurriculars', extracurricular)
+      resumedispatch({
+        type: 'ADDRESUME',
+        section: 'extracurriculars',
+        payload: extracurricular,
+      })
       setExtracurricular('')
     }
   }

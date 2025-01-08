@@ -1,7 +1,7 @@
 import PlayButton from './PlayButton'
 import Video from './Video'
 
-function VideoList({ videos, deleteVideo, editVideo }) {
+function VideoList({ videos, dispatch, editVideo }) {
   return (
     <div
       style={{ display: 'flex' }}
@@ -16,7 +16,7 @@ function VideoList({ videos, deleteVideo, editVideo }) {
           views={video.views}
           time={video.time}
           id={video.id}
-          deleteVideo={deleteVideo}
+          dispatch={dispatch}
           editVideo={editVideo}
         >
           <PlayButton
