@@ -1,7 +1,10 @@
 import React from 'react'
 import './Resume.css'
 
-function Resume({ data, resumedispatch }) {
+import useResumeDispatch from '../hooks/ResumeDispatch'
+
+function Resume({ data }) {
+  const resumedispatch = useResumeDispatch()
   const handleUpdate = (section, index) => {
     const updatedItem = prompt(`Update ${section} item:`, data[section][index])
     if (updatedItem) {

@@ -1,7 +1,11 @@
 import PlayButton from './PlayButton'
 import Video from './Video'
+import useVideos from '../hooks/Videos'
+import useVideosDispatch from '../hooks/VideosDispatch'
 
-function VideoList({ videos, dispatch, editVideo }) {
+function VideoList({ editVideo }) {
+  const videos = useVideos()
+  const dispatch = useVideosDispatch()
   return (
     <div
       style={{ display: 'flex' }}

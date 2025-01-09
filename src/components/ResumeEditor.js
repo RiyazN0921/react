@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import useResumeDispatch from '../hooks/ResumeDispatch'
 
-function ResumeEditor({ resumedispatch }) {
+function ResumeEditor() {
   const [skill, setSkill] = useState('')
   const [education, setEducation] = useState({ name: '', link: '' })
   const [experience, setExperience] = useState('')
   const [interest, setInterest] = useState('')
   const [extracurricular, setExtracurricular] = useState('')
+
+  const resumedispatch = useResumeDispatch()
 
   const handleAddSkill = () => {
     if (skill.trim()) {

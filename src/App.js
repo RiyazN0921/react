@@ -4,7 +4,7 @@
 import { useReducer, useState } from 'react'
 // import Clicks from './components/Click'
 import Resume from './components/Resume'
-// import States from './components/State'
+import States from './components/State'
 import videoDB from './data/data'
 // import Effects from './components/Effect'
 // import Stopwatch from './components/Stopwatch'
@@ -12,10 +12,16 @@ import AddVideo from './components/AddVideo'
 import VideoList from './components/VideoList'
 // import resumeData from './data/Resume'
 import ResumeEditor from './components/ResumeEditor'
-import ThemeContext from './context/Theme'
+import ThemeContext, { ThemeProvider } from './context/Theme'
 // import FormEvent from './components/FormEvent'
 // import SearchableList from './components/SearchPlayers'
 // import Todo from './components/Todo'
+import Switch from 'react-switch'
+import VideosContext from './context/VideosContext'
+import VideosDispatchContext from './context/VideosDispatchContext'
+import ResumeContextDispatch from './context/ResumeDispatchContext'
+import Counter from './components/counter'
+import useWindowSize from './hooks/WindowSize'
 
 const initialState = {
   name: 'Emily',
@@ -81,46 +87,58 @@ function App() {
 
   const [editable, setEditable] = useState(null)
 
-  const [mode, setMode] = useState('DarkMode')
+  const [width, height] = useWindowSize()
 
   function editVideo(id) {
     setEditable(videos.find((videos) => videos.id === id))
   }
 
   return (
-    <ThemeContext.Provider value={mode}>
-      <div>
-        <button
-          onClick={() =>
-            setMode(mode === 'DarkMode' ? 'lightMode' : 'DarkMode')
-          }
-        >
-          mode
-        </button>
-        <AddVideo
-          dispatch={dispatch}
-          editable={editable}
-          setEditable={setEditable}
-        />
-        <VideoList
-          dispatch={dispatch}
-          editVideo={editVideo}
-          videos={videos}
-        ></VideoList>
-      </div>
-      <Resume data={resumeData} resumedispatch={resumedispatch} />
-      <ResumeEditor resumedispatch={resumedispatch} />
-      {/* <Events></Events>
-      <Forms></Forms>
-      <Inuputs></Inuputs>
-      <Clicks></Clicks>
-      <States></States>
-      <Effects></Effects>
-      <Stopwatch></Stopwatch> */}
-      {/* <FormEvent></FormEvent>
-      <SearchableList></SearchableList> */}
-      {/* <Todo></Todo> */}
-    </ThemeContext.Provider>
+    <ThemeProvider>
+      <ThemeContext.Consumer>
+        {({ isDarkMode, toggleTheme }) => (
+          <div
+            style={{
+              backgroundColor: isDarkMode ? '#333' : '#fff',
+              color: isDarkMode ? '#fff' : '#000',
+              height: '100vh',
+              padding: '20px',
+            }}
+          >
+            <div>
+              <label>Toggle Theme</label>
+              <Switch onChange={toggleTheme} checked={isDarkMode} />
+            </div>
+
+            <div>
+              <h1>Window Size</h1>
+              <p>Width: {width}px</p>
+              <p>Height: {height}px</p>
+            </div>
+
+            <div>
+              <States></States>
+            </div>
+
+            <VideosContext.Provider value={videos}>
+              <VideosDispatchContext.Provider value={dispatch}>
+                <AddVideo editable={editable} setEditable={setEditable} />
+                <VideoList
+                  editVideo={(id) =>
+                    setEditable(videos.find((v) => v.id === id))
+                  }
+                />
+              </VideosDispatchContext.Provider>
+            </VideosContext.Provider>
+
+            <ResumeContextDispatch.Provider value={resumedispatch}>
+              <Resume data={resumeData} />
+              <ResumeEditor />
+            </ResumeContextDispatch.Provider>
+          </div>
+        )}
+      </ThemeContext.Consumer>
+    </ThemeProvider>
   )
 }
 
