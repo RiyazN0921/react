@@ -2,10 +2,22 @@ import PlayButton from './PlayButton'
 import Video from './Video'
 import useVideos from '../hooks/Videos'
 import useVideosDispatch from '../hooks/VideosDispatch'
+import { useEffect } from 'react'
+import axios from 'axios'
 
 function VideoList({ editVideo }) {
   const videos = useVideos()
   const dispatch = useVideosDispatch()
+
+  const url = 'https://my.api.mockaroo.com/learning.json?key=81785710'
+
+  useEffect(() => {
+    async function handleClick() {
+      const res = await axios.get(url)
+      dispatch({ type: 'LOAD', payload: res.data })
+    }
+    handleClick()
+  }, [dispatch])
   return (
     <div
       style={{ display: 'flex' }}
@@ -35,6 +47,7 @@ function VideoList({ editVideo }) {
           </PlayButton>
         </Video>
       ))}
+      {/* <button onClick={handleClick}>get videos</button> */}
     </div>
   )
 }

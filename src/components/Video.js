@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import ThemeContext from '../context/Theme'
 import './Video.css'
 function Video({
@@ -13,6 +13,12 @@ function Video({
   dispatch,
 }) {
   const theme = useContext(ThemeContext)
+
+  useEffect(() => {
+    setInterval(() => {
+      console.log('videos', id)
+    }, 3000)
+  }, [id])
   return (
     <>
       <div className={`container ${theme}`}>

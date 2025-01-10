@@ -5,7 +5,7 @@ import { useReducer, useState } from 'react'
 // import Clicks from './components/Click'
 import Resume from './components/Resume'
 import States from './components/State'
-import videoDB from './data/data'
+// import videoDB from './data/data'
 // import Effects from './components/Effect'
 // import Stopwatch from './components/Stopwatch'
 import AddVideo from './components/AddVideo'
@@ -20,7 +20,7 @@ import Switch from 'react-switch'
 import VideosContext from './context/VideosContext'
 import VideosDispatchContext from './context/VideosDispatchContext'
 import ResumeContextDispatch from './context/ResumeDispatchContext'
-import Counter from './components/counter'
+// import Counter from './components/counter'
 import useWindowSize from './hooks/WindowSize'
 
 const initialState = {
@@ -66,6 +66,8 @@ function App() {
 
   function videoReducer(videos, action) {
     switch (action.type) {
+      case 'LOAD':
+        return action.payload
       case 'ADD':
         return [...videos, { ...action.payload, id: videos.length + 1 }]
 
@@ -83,7 +85,7 @@ function App() {
     }
   }
 
-  const [videos, dispatch] = useReducer(videoReducer, videoDB)
+  const [videos, dispatch] = useReducer(videoReducer, [])
 
   const [editable, setEditable] = useState(null)
 
