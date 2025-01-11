@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react'
+import { useContext, memo } from 'react'
 import ThemeContext from '../context/Theme'
 import './Video.css'
-function Video({
+const Video = memo(function Video({
   title,
   views,
   time,
@@ -12,13 +12,12 @@ function Video({
   editVideo,
   dispatch,
 }) {
+  console.log('video render')
   const theme = useContext(ThemeContext)
 
-  useEffect(() => {
-    setInterval(() => {
-      console.log('videos', id)
-    }, 3000)
-  }, [id])
+  // useEffect(() => {
+  //   console.log(id)
+  // }, [id])
   return (
     <>
       <div className={`container ${theme}`}>
@@ -45,6 +44,6 @@ function Video({
       </div>
     </>
   )
-}
+})
 
 export default Video

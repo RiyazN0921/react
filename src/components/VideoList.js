@@ -2,7 +2,7 @@ import PlayButton from './PlayButton'
 import Video from './Video'
 import useVideos from '../hooks/Videos'
 import useVideosDispatch from '../hooks/VideosDispatch'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import axios from 'axios'
 
 function VideoList({ editVideo }) {
@@ -18,6 +18,20 @@ function VideoList({ editVideo }) {
     }
     handleClick()
   }, [dispatch])
+
+  const play = useCallback((message) => console.log(message), [])
+
+  const pause = useCallback((message) => console.log(message), [])
+
+  const memoButton = useMemo(
+    () => (
+      <PlayButton onPlay={play} onPause={pause}>
+        Play
+      </PlayButton>
+    ),
+    [pause, play],
+  )
+
   return (
     <div
       style={{ display: 'flex' }}
@@ -35,16 +49,7 @@ function VideoList({ editVideo }) {
           dispatch={dispatch}
           editVideo={editVideo}
         >
-          <PlayButton
-            message={{
-              play: `Play video: ${video.title}`,
-              stop: `Stop video: ${video.title}`,
-            }}
-            onPlay={(message) => console.log(message)}
-            onPause={(message) => console.log(message)}
-          >
-            {video.title}
-          </PlayButton>
+          {memoButton}
         </Video>
       ))}
       {/* <button onClick={handleClick}>get videos</button> */}

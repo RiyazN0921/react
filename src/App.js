@@ -1,7 +1,7 @@
 // import Events from './components/Events'
 // import Forms from './components/Form'
 // import Inuputs from './components/Input'
-import { useReducer, useState } from 'react'
+import { useCallback, useReducer, useState } from 'react'
 // import Clicks from './components/Click'
 import Resume from './components/Resume'
 import States from './components/State'
@@ -91,9 +91,13 @@ function App() {
 
   const [width, height] = useWindowSize()
 
-  function editVideo(id) {
-    setEditable(videos.find((videos) => videos.id === id))
-  }
+  const editVideo = useCallback(
+    function editVideo(id) {
+      console.log('editvideo')
+      setEditable(videos.find((videos) => videos.id === id))
+    },
+    [videos],
+  )
 
   return (
     <ThemeProvider>
@@ -125,11 +129,7 @@ function App() {
             <VideosContext.Provider value={videos}>
               <VideosDispatchContext.Provider value={dispatch}>
                 <AddVideo editable={editable} setEditable={setEditable} />
-                <VideoList
-                  editVideo={(id) =>
-                    setEditable(videos.find((v) => v.id === id))
-                  }
-                />
+                <VideoList editVideo={editVideo} />
               </VideosDispatchContext.Provider>
             </VideosContext.Provider>
 
