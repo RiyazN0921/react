@@ -22,6 +22,7 @@ import VideosDispatchContext from './context/VideosDispatchContext'
 import ResumeContextDispatch from './context/ResumeDispatchContext'
 // import Counter from './components/counter'
 import useWindowSize from './hooks/WindowSize'
+import AssignmentButton from './components/AssignmentButton'
 
 const initialState = {
   name: 'Emily',
@@ -115,6 +116,8 @@ function App() {
               <label>Toggle Theme</label>
               <Switch onChange={toggleTheme} checked={isDarkMode} />
             </div>
+
+            <AssignmentButton></AssignmentButton>
 
             <div>
               <h1>Window Size</h1>

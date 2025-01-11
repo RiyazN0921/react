@@ -23,6 +23,9 @@ function VideoList({ editVideo }) {
 
   const pause = useCallback((message) => console.log(message), [])
 
+  // const play = useMemo(() => (message) => console.log(message), [])
+  // const pause = useMemo(() => (message) => console.log(message), [])
+
   const memoButton = useMemo(
     () => (
       <PlayButton onPlay={play} onPause={pause}>
