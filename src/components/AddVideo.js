@@ -1,4 +1,11 @@
-import { useRef, useState, useEffect } from 'react'
+import {
+  useRef,
+  useState,
+  useEffect,
+  forwardRef,
+  useImperativeHandle,
+  useLayoutEffect,
+} from 'react'
 import useVideosDispatch from '../hooks/VideosDispatch'
 
 const initialState = {
@@ -9,16 +16,38 @@ const initialState = {
   views: '',
 }
 
-function AddVideo({ editable, setEditable }) {
+const AddVideo = forwardRef(function AddVideo({ editable, setEditable }, ref) {
   const [video, setVideo] = useState(editable || initialState)
 
   const dispatch = useVideosDispatch()
 
-  const inputRef = useRef(null)
+  // const inputRef = useRef(null)
 
   // if (editable && video.id !== editable.id) {
   //   setVideo(editable)
   // }
+
+  const iRef = useRef(null)
+
+  useLayoutEffect(() => {
+    const { height } = iRef.current.getBoundingClientRect()
+    console.log(height)
+  })
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        jumpTo() {
+          iRef.current.focus()
+        },
+        scrollIntoView() {
+          iRef.current.scrollIntoView()
+        },
+      }
+    },
+    [],
+  )
 
   function handleChange(e) {
     setVideo({ ...video, [e.target.name]: e.target.value })
@@ -44,7 +73,7 @@ function AddVideo({ editable, setEditable }) {
 
     // inputRef.current.value = 'demo'
     // inputRef.current.style.background = 'red'
-    inputRef.current.focus()
+    // inputRef.current.focus()
 
     // 'type here'.split('').forEach((c, i) => {
     //   console.log(c)
@@ -58,7 +87,7 @@ function AddVideo({ editable, setEditable }) {
     <>
       <form>
         <input
-          ref={inputRef}
+          ref={iRef}
           onChange={handleChange}
           name="title"
           placeholder="enter your title"
@@ -76,6 +105,6 @@ function AddVideo({ editable, setEditable }) {
       </form>
     </>
   )
-}
+})
 
 export default AddVideo

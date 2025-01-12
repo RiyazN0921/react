@@ -1,7 +1,7 @@
 // import Events from './components/Events'
 // import Forms from './components/Form'
 // import Inuputs from './components/Input'
-import { useCallback, useReducer, useState } from 'react'
+import { useCallback, useReducer, useRef, useState } from 'react'
 // import Clicks from './components/Click'
 import Resume from './components/Resume'
 import States from './components/State'
@@ -100,6 +100,8 @@ function App() {
     [videos],
   )
 
+  const inputRef = useRef(null)
+
   return (
     <ThemeProvider>
       <ThemeContext.Consumer>
@@ -117,6 +119,22 @@ function App() {
               <Switch onChange={toggleTheme} checked={isDarkMode} />
             </div>
 
+            <button
+              onClick={() => {
+                inputRef.current.jumpTo()
+              }}
+            >
+              Focus
+            </button>
+
+            <button
+              onClick={() => {
+                inputRef.current.scrollIntoView()
+              }}
+            >
+              Scroll
+            </button>
+
             <AssignmentButton></AssignmentButton>
 
             <div>
@@ -131,7 +149,11 @@ function App() {
 
             <VideosContext.Provider value={videos}>
               <VideosDispatchContext.Provider value={dispatch}>
-                <AddVideo editable={editable} setEditable={setEditable} />
+                <AddVideo
+                  editable={editable}
+                  setEditable={setEditable}
+                  ref={inputRef}
+                />
                 <VideoList editVideo={editVideo} />
               </VideosDispatchContext.Provider>
             </VideosContext.Provider>
